@@ -23,6 +23,13 @@
                 sortOrder="10"/>
     </type>
 
+    <!-- Disable entity-specific page layout for CMS pages -->
+    <type name="Magento\Cms\Helper\Page">
+        <plugin name="hryvinskyi_disable_entity_specific_cms_page_layout"
+                type="Hryvinskyi\PageLayoutManager\Plugin\Cms\Helper\Page\DisableEntitySpecificLayout"
+                sortOrder="10"/>
+    </type>
+
     <!-- Configuration for request validators - other modules can add their own -->
     <type name="Hryvinskyi\PageLayoutManager\Model\Strategy\ValidatorStrategy">
         <arguments>

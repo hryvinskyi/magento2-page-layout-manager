@@ -37,6 +37,18 @@ bin/magento setup:di:compile
 bin/magento cache:clean
 ```
 
+## Features
+
+### CMS Page Layout Management
+
+The module automatically disables entity-specific page layouts for CMS pages to prevent cache bloat:
+
+- **Admin Panel**: The page layout field is disabled (grayed out) in the CMS page edit form with an informative message
+- **Frontend**: Entity-specific page layouts are not applied to CMS pages - only global/theme-level layouts are used
+- **Cache Optimization**: Prevents creation of separate cache entries for each CMS page layout variation
+
+This ensures consistent layout handling across all CMS pages while significantly reducing cache storage requirements.
+
 ## Usage
 
 ### Creating Custom Validators
@@ -51,10 +63,6 @@ use Hryvinskyi\PageLayoutManager\Api\RequestValidatorInterface;
 
 class MyCustomValidator implements RequestValidatorInterface
 {
-    public function __construct(private readonly RequestInterface $request)
-    {
-    }
-
     public function isRequestAllowed(
         array $parameters = [],
         ?string $defaultHandle = null,
@@ -65,7 +73,7 @@ class MyCustomValidator implements RequestValidatorInterface
         // Return false to block it
 
         // Example: Allow only specific product pages
-        if ($this->request->getFullActionName() === 'catalog_product_view') {
+        if ($defaultHandle === 'catalog_product_view') {
             $productId = $parameters['id'] ?? null;
             return in_array($productId, [1, 2, 3]); // Only these products
         }
@@ -87,10 +95,6 @@ use Hryvinskyi\PageLayoutManager\Model\ModificationResult;
 
 class MyCustomParameterModifier implements ParameterModifierInterface
 {
-    public function __construct(private readonly RequestInterface $request)
-    {
-    }
-
     public function modifyParameters(
         array $parameters,
         ?string $defaultHandle,
@@ -101,8 +105,9 @@ class MyCustomParameterModifier implements ParameterModifierInterface
         $modifiedHandle = $defaultHandle;
 
         // Example: Add cache tags for better cache management
-        if ($this->request->getFullActionName() === 'catalog_product_view') {
-            unset($modifiedParameters['sku']);
+        if ($defaultHandle === 'catalog_product_view') {
+            $modifiedParameters['cache_tags'] = ['product_cache_tag'];
+            $modifiedHandle = 'catalog_product_view_optimized';
         }
 
         return new ModificationResult(
