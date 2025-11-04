@@ -38,10 +38,10 @@ class DisableEntitySpecificLayout
      */
     public function afterPrepareResultPage(
         Page $subject,
-        ResultPage|false $result,
+        $result,
         ActionInterface $action,
-        ?int $pageId = null
-    ): ResultPage|false {
+        $pageId = null
+    ) {
         // If prepareResultPage returned false (page not found), return as is
         if ($result === false) {
             return $result;
