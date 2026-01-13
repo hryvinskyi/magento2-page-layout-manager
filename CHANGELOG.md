@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5] - 2026-01-13
+
+### Changed
+- Refactored `DisablePageLayoutGetters::aroundGetData()` to `afterGetData()` for better performance
+- Changed from around plugin (which wraps execution) to after plugin (which modifies result)
+- Updated method signature to use `$result` parameter instead of `callable $proceed`
+- Simplified plugin logic to directly return null for custom_page_layout requests
+
+### Improved
+- Reduced plugin overhead by switching from around to after interceptor
+- More efficient execution path for getData() calls
+
 ## [1.0.4] - 2026-01-13
 
 ### Added

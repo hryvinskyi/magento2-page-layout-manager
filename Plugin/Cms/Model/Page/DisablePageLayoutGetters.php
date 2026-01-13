@@ -39,23 +39,23 @@ class DisablePageLayoutGetters
     /**
      * Force custom_page_layout data to return null
      *
-     * This around plugin intercepts getData() calls for the 'custom_page_layout' key
+     * This after plugin intercepts getData() calls for the 'custom_page_layout' key
      * and returns null to prevent custom page layouts from being applied.
      *
      * @param Page $subject
-     * @param callable $proceed
+     * @param mixed $result
      * @param string|null $key
      * @param string|int|null $index
      * @return mixed
      */
-    public function aroundGetData(Page $subject, callable $proceed, $key = null, $index = null)
+    public function afterGetData(Page $subject, $result, $key = null, $index = null)
     {
         // If requesting custom_page_layout specifically, return null
         if ($key === 'custom_page_layout') {
             return null;
         }
 
-        // For all other cases, proceed with normal getData behavior
-        return $proceed($key, $index);
+        // For all other cases, return the original result
+        return $result;
     }
 }
