@@ -30,6 +30,13 @@
                 sortOrder="10"/>
     </type>
 
+    <!-- Force CMS Page layout getters to return null -->
+    <type name="Magento\Cms\Model\Page">
+        <plugin name="hryvinskyi_disable_page_layout_getters"
+                type="Hryvinskyi\PageLayoutManager\Plugin\Cms\Model\Page\DisablePageLayoutGetters"
+                sortOrder="10"/>
+    </type>
+
     <!-- Configuration for request validators - other modules can add their own -->
     <type name="Hryvinskyi\PageLayoutManager\Model\Strategy\ValidatorStrategy">
         <arguments>

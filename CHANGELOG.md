@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - 2026-01-13
+
+### Added
+- **NEW**: `DisablePageLayoutGetters` plugin for CMS pages - Forces page layout getters to return null
+- Added `afterGetPageLayout()` plugin method to intercept and nullify page layout retrieval
+- Added `aroundGetData()` plugin method to prevent custom_page_layout data from being returned
+
+### Changed
+- CMS pages now have their getPageLayout() method intercepted to always return null
+- Custom page layout data access via getData('custom_page_layout') now returns null
+- Updated di.xml to register DisablePageLayoutGetters plugin on Magento\Cms\Model\Page
+
+### Fixed
+- Prevents entity-specific layout handles from being applied at runtime for CMS pages
+- Further reduces cache bloat by ensuring no page-specific layout data is used
+
 ## [1.0.2]
 
 ### Added
