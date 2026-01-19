@@ -21,26 +21,26 @@ use Magento\Cms\Model\Page;
 class DisablePageLayoutGetters
 {
     /**
-     * Force getPageLayout() to return null
+     * Force getPageLayout() to return empty string
      *
-     * This after plugin ensures that the page layout getter always returns null,
+     * This after plugin ensures that the page layout getter always returns empty string,
      * preventing entity-specific page layouts from being applied.
      *
      * @param Page $subject
      * @param string|null $result
-     * @return null
+     * @return string
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function afterGetPageLayout(Page $subject, $result)
+    public function afterGetPageLayout(Page $subject, $result): string
     {
-        return null;
+        return '';
     }
 
     /**
-     * Force custom_page_layout data to return null
+     * Force page_layout and custom_page_layout data to return empty string
      *
-     * This after plugin intercepts getData() calls for the 'custom_page_layout' key
-     * and returns null to prevent custom page layouts from being applied.
+     * This after plugin intercepts getData() calls for the 'page_layout' and 'custom_page_layout' keys
+     * and returns empty string to prevent custom page layouts from being applied.
      *
      * @param Page $subject
      * @param mixed $result
@@ -50,9 +50,9 @@ class DisablePageLayoutGetters
      */
     public function afterGetData(Page $subject, $result, $key = null, $index = null)
     {
-        // If requesting custom_page_layout specifically, return null
-        if ($key === 'custom_page_layout') {
-            return null;
+        // If requesting page_layout or custom_page_layout, return empty string
+        if ($key === 'custom_page_layout' || $key === 'page_layout') {
+            return '';
         }
 
         // For all other cases, return the original result

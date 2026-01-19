@@ -1,6 +1,7 @@
 {
     "name": "hryvinskyi/magento2-page-layout-manager",
     "description": "Adobe Commerce / Magento 2 Performance optimisation module for avoid entity specific page cache bloat",
+    "version": "1.0.6",
     "type": "magento2-module",
     "license": "MIT",
     "authors": [
